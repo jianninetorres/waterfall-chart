@@ -1,4 +1,7 @@
-import { HomeProps, ParseResults, buildDataObj } from "@/helpers";
+import { MethodsList, ViewOptions, buildDataObj } from "@/helpers";
+import { DataObj, HomeProps, ParseResults } from "@/interfaces";
+import { Methods, View } from "@/types";
+import { Button, Stack, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
 import {
@@ -14,10 +17,10 @@ import {
 const Home = ({ pem, smr }: HomeProps) => {
   const { readString } = usePapaParse();
 
-  const [pemDataState, setPemDataState] = useState<string[][]>([]);
-  const [smrDataState, setSmrDataState] = useState<string[][]>([]);
-  const [file, setFile] = useState<"PEM" | "SMR">("PEM");
-  const [view, setView] = useState<"cost" | "carbonIntensity">("cost");
+  const [PEMData, setPEMData] = useState<DataObj[]>([]);
+  const [SMRData, setSMRData] = useState<DataObj[]>([]);
+  const [file, setFile] = useState<Methods>("PEM");
+  const [view, setView] = useState<View>("cost");
 
   useEffect(() => {
     const getData = (data: string) =>
@@ -36,12 +39,12 @@ const Home = ({ pem, smr }: HomeProps) => {
     pemData.data.shift();
     smrData.data.shift();
 
-    setPemDataState(pemData.data);
-    setSmrDataState(smrData.data);
-  }, []);
+    const _PEMdata = buildDataObj(pemData.data);
+    const _SMRdata = buildDataObj(smrData.data);
 
-  const PEMdata = buildDataObj(pemDataState);
-  const SMRdata = buildDataObj(smrDataState);
+    setPEMData(_PEMdata);
+    setSMRData(_SMRdata);
+  }, []);
 
   return (
     <>
@@ -49,7 +52,7 @@ const Home = ({ pem, smr }: HomeProps) => {
       <BarChart
         width={900}
         height={500}
-        data={file === "PEM" ? PEMdata : SMRdata}
+        data={file === "PEM" ? PEMData : SMRData}
         margin={{
           top: 20,
         }}
@@ -62,46 +65,48 @@ const Home = ({ pem, smr }: HomeProps) => {
         {view === "cost" ? (
           <>
             <Bar dataKey="carbonIntensity" stackId="a" fill="transparent" />
-            <Bar dataKey="cost" stackId="a" fill="#8884d8" />
+            <Bar dataKey="cost" stackId="a" fill="#f57c00" />
           </>
         ) : (
           <>
             <Bar dataKey="cost" stackId="a" fill="transparent" />
-            <Bar dataKey="carbonIntensity" stackId="a" fill="#82ca9d" />
+            <Bar dataKey="carbonIntensity" stackId="a" fill="#388e3c" />
           </>
         )}
       </BarChart>
 
-      <div>
-        <h2>Methods</h2>
-        <div className="flex flex-col">
-          <button
-            onClick={() => setFile("PEM")}
-            style={{ borderWidth: file === "PEM" ? "5px" : 0 }}
-          >
-            Polymer Electrolyte Membrane (PEM)
-          </button>
-          <button
-            onClick={() => setFile("SMR")}
-            style={{ borderWidth: file === "SMR" ? "5px" : 0 }}
-          >
-            Steam methane reforming (SMR)
-          </button>
-        </div>
-      </div>
-
-      <button
-        onClick={() => setView("cost")}
-        style={{ borderWidth: view === "cost" ? "5px" : 0 }}
+      <Stack
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+        gap={2}
       >
-        Cost
-      </button>
-      <button
-        onClick={() => setView("carbonIntensity")}
-        style={{ borderWidth: view === "carbonIntensity" ? "5px" : 0 }}
-      >
-        Carbon Intensity
-      </button>
+        <Stack spacing={2} width={200}>
+          <h2>Methods</h2>
+          {MethodsList.map((method) => (
+            <Button
+              onClick={() => setFile(method)}
+              variant={file === method ? "contained" : "outlined"}
+              key={method}
+            >
+              {method}
+            </Button>
+          ))}
+        </Stack>
+        <Stack spacing={2} width={200}>
+          <h2>Options</h2>
+          {ViewOptions.map((option) => (
+            <Button
+              onClick={() => setView(option.name)}
+              variant={view === option.name ? "contained" : "outlined"}
+              key={option.name}
+              color={option.color}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </Stack>
+      </Stack>
     </>
   );
 };

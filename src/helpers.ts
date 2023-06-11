@@ -1,13 +1,18 @@
-export interface HomeProps {
-  pem: string;
-  smr: string;
-}
+import { Methods, View } from "./types";
 
-export interface ParseResults {
-  data: [];
-  errors: [];
-  meta: [];
-}
+export const MethodsList: Methods[] = ["PEM", "SMR"];
+export const ViewOptions: { name: View; color: string; label: string }[] = [
+  {
+    name: "carbonIntensity",
+    color: "success",
+    label: "Carbon Intensity",
+  },
+  {
+    name: "cost",
+    color: "warning",
+    label: "Cost",
+  },
+];
 
 export const buildDataObj = (data: string[][]) =>
   data.map((item) => {
