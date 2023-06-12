@@ -18,12 +18,23 @@ export const ViewOptions: Option[] = [
   {
     name: "carbonIntensity",
     color: "success",
-    label: "Carbon Intensity",
+    label: "Carbon Intensity [g CO2/g]",
   },
   {
     name: "cost",
     color: "warning",
-    label: "Cost",
+    label: "Cost [$/kg]",
+  },
+];
+
+export const SubCategories: Option[] = [
+  {
+    name: "CAPEX",
+    label: "CAPEX",
+  },
+  {
+    name: "OPEX",
+    label: "OPEX",
   },
 ];
 
@@ -43,15 +54,15 @@ export const buildDataObj = (data: string[][]): DataObj[] => {
     return {
       name: item[0],
       subCategory: item[1],
-      prevCost: prev && prev[0] === item[0] ? Number(prev[2]) : 0,
+      prev_cost: prev && prev[0] === item[0] ? Number(prev[2]) : 0,
       cost: Number(item[2]),
-      cumulativeCost:
+      cumulative_cost:
         prev && prev[0] === item[0]
           ? Number(prev[2]) + Number(item[2])
           : Number(item[2]),
-      prevCarbonIntensity: prev && prev[0] === item[0] ? Number(prev[3]) : 0,
+      prev_carbonIntensity: prev && prev[0] === item[0] ? Number(prev[3]) : 0,
       carbonIntensity: Number(item[3]),
-      cumulativeCarbonIntensity:
+      cumulative_carbonIntensity:
         prev && prev[0] === item[0]
           ? Number(prev[3]) + Number(item[3])
           : Number(item[3]),
@@ -89,11 +100,11 @@ export const buildDataObj = (data: string[][]): DataObj[] => {
       name: "Total",
       subCategory: name,
       cost: totalCost,
-      prevCost: 0,
-      cumulativeCost: 0,
+      prev_cost: 0,
+      cumulative_cost: 0,
       carbonIntensity: totalCarbonIntensity,
-      prevCarbonIntensity: 0,
-      cumulativeCarbonIntensity: 0,
+      prev_carbonIntensity: 0,
+      cumulative_carbonIntensity: 0,
     })
   );
 

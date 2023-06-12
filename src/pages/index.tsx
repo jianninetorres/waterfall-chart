@@ -75,7 +75,7 @@ const Home = ({ pem, smr }: HomeProps) => {
         </Stack>
         <Stack spacing={2} width={200}>
           <Options
-            title="Views"
+            title="Subcategories"
             value={view}
             list={ViewOptions}
             onChangeHandler={setView}

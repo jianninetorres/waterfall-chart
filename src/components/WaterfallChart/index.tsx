@@ -1,4 +1,4 @@
-import { COLORS, GetDataCells } from "@/helpers";
+import { COLORS, GetDataCells, SubCategories } from "@/helpers";
 import { DataObj } from "@/interfaces";
 import { Methods, View } from "@/types";
 import {
@@ -35,40 +35,22 @@ const WaterfallChart = ({ view, method, data }: WaterfallChartProps) => {
       <YAxis />
       <Tooltip contentStyle={{ color: "black" }} />
       <Legend />
-      {view === "cost" ? (
-        <>
-          <Bar dataKey="prevCost" stackId="a" fill="transparent" />
-          <Bar dataKey="cost" name="Cost" stackId="a" fill={COLORS.cost}>
-            {GetDataCells(data[method])}
-          </Bar>
-        </>
-      ) : (
-        <>
-          <Bar dataKey="prevCarbonIntensity" stackId="a" fill="transparent" />
-          <Bar
-            dataKey="carbonIntensity"
-            name="Carbon Intensity"
-            stackId="a"
-            fill={COLORS.carbonIntensity}
-          >
-            {GetDataCells(data[method])}
-          </Bar>
-        </>
-      )}
-      <Bar
-        dataKey="CAPEX"
-        stackId="a"
-        fill={COLORS.CAPEX}
-        fillOpacity={0}
-        name="CAPEX"
-      />
-      <Bar
-        dataKey="OPEX"
-        stackId="a"
-        fill={COLORS.OPEX}
-        fillOpacity={0}
-        name="OPEX"
-      />
+      <>
+        <Bar dataKey={`prev_${view}`} stackId="a" fill="transparent" />
+        <Bar dataKey={view} name={view} stackId="a" fill={COLORS[view]}>
+          {GetDataCells(data[method])}
+        </Bar>
+      </>
+      {SubCategories.map((category) => (
+        <Bar
+          dataKey={category.name}
+          stackId="a"
+          fill={COLORS[category.name]}
+          fillOpacity={0}
+          name={category.label}
+          key={category.name}
+        />
+      ))}
     </BarChart>
   );
 };
