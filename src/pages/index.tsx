@@ -64,13 +64,37 @@ const Home = ({ pem, smr }: HomeProps) => {
         <Legend />
         {view === "cost" ? (
           <>
-            <Bar dataKey="carbonIntensity" stackId="a" fill="transparent" />
-            <Bar dataKey="cost" stackId="a" fill="#f57c00" />
+            <Bar
+              dataKey="carbonIntensity"
+              name="Carbon Intensity"
+              stackId="a"
+              fill="transparent"
+            />
+            <Bar dataKey="cost" name="Cost" stackId="a" fill="#f57c00" />
+            <Bar
+              dataKey="subCategory"
+              stackId="a"
+              fill="#325aa8"
+              fillOpacity={0}
+              name="Sub category"
+            />
           </>
         ) : (
           <>
-            <Bar dataKey="cost" stackId="a" fill="transparent" />
-            <Bar dataKey="carbonIntensity" stackId="a" fill="#388e3c" />
+            <Bar dataKey="cost" name="Cost" stackId="a" fill="transparent" />
+            <Bar
+              dataKey="carbonIntensity"
+              name="Carbon Intensity"
+              stackId="a"
+              fill="#388e3c"
+            />
+            <Bar
+              dataKey="subCategory"
+              stackId="a"
+              fill="#325aa8"
+              fillOpacity={0}
+              name="Sub category"
+            />
           </>
         )}
       </BarChart>
