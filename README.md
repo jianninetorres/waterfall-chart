@@ -14,21 +14,33 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Or go to https://othersphere.vercel.app/
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![waterfall chart](./public/screenshot.png)
+![waterfall chart 2](./public/screenshot2.png)
 
-## Learn More
+### Approach
 
-To learn more about Next.js, take a look at the following resources:
+1. Determine how to fetch the data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - `getStaticProps` is used to fetch the data before the page is rendered.
+   - The data is converted to a string, then parsed using `react-papaparse`. The data returned is an array of arrays.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Process the data by building an object for each item.
 
-## Deploy on Vercel
+   - This returns useful information for each piece of data.
+   - The `buildDataObj` calculates the cumulative and previous values for the cost and carbon intensity. These values are used to create a waterfall effect later in the `BarChart`.
+   - `getTotal` calculates the final total for OPEX and CAPEX subcategories. The object returned from getTotal is pushed into the `_obj` placeholder array. The `_obj` array is returned from `buildDataObj`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Build the UI using `Material UI` and the bar graph using `Recharts`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   - The Radio groups and element groupings use Material UI to display the options.
+   - The Bar Chart is used to create the waterfall effect using the cumulative and previous values for the cost and carbon intensity.
+   - `Options` and `WaterfallChart` are the main components.
+
+4. Assumptions:
+   - As noted in the instructions, Cost and Carbon Intensity may be changed or other fields are added in the future. In the interest of time, the code assumes only Cost and Carbon Intensity are the only options available. Further refactoring would be required if other options are added.
+
+### Time spent
+
+`>` 5 hours because I thought this was a fun and interesting challenge. I used this as an opportunity to learn a bit about waterfall charts and using Recharts.

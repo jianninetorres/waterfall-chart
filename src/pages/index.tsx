@@ -3,14 +3,8 @@ import "../app/globals.css";
 import { MethodsList, ViewOptions, buildDataObj, inter } from "@/helpers";
 import { DataObj, HomeProps, ParseResults } from "@/interfaces";
 import { Methods, View } from "@/types";
-import {
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-} from "@mui/material";
-import { SetStateAction, useEffect, useState } from "react";
+import { Stack } from "@mui/material";
+import { useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
 import WaterfallChart from "@/components/WaterfallChart";
 import Options from "@/components/Options";
