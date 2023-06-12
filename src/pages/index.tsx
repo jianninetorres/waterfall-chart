@@ -1,17 +1,9 @@
 import "../app/globals.css";
 
-import {
-  COLORS,
-  GetDataCells,
-  MethodsList,
-  ViewOptions,
-  buildDataObj,
-  inter,
-} from "@/helpers";
+import { MethodsList, ViewOptions, buildDataObj, inter } from "@/helpers";
 import { DataObj, HomeProps, ParseResults } from "@/interfaces";
 import { Methods, View } from "@/types";
 import {
-  Button,
   FormControl,
   FormControlLabel,
   Radio,
@@ -20,15 +12,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import WaterfallChart from "@/components/WaterfallChart";
 
 const Home = ({ pem, smr }: HomeProps) => {
   const { readString } = usePapaParse();
@@ -127,62 +111,11 @@ const Home = ({ pem, smr }: HomeProps) => {
       </Stack>
       <Stack direction="column">
         <h1>Hydrogen Production</h1>
-        <BarChart
-          width={1100}
-          height={500}
-          data={method === "PEM" ? PEMData : SMRData}
-          margin={{
-            top: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip contentStyle={{ color: "black" }} />
-          <Legend />
-          {view === "cost" ? (
-            <>
-              <Bar dataKey="prevCost" stackId="a" fill="transparent" />
-              <Bar dataKey="cost" name="Cost" stackId="a" fill={COLORS.cost}>
-                {method === "PEM"
-                  ? GetDataCells(PEMData)
-                  : GetDataCells(SMRData)}
-              </Bar>
-            </>
-          ) : (
-            <>
-              <Bar
-                dataKey="prevCarbonIntensity"
-                stackId="a"
-                fill="transparent"
-              />
-              <Bar
-                dataKey="carbonIntensity"
-                name="Carbon Intensity"
-                stackId="a"
-                fill={COLORS.carbonIntensity}
-              >
-                {method === "PEM"
-                  ? GetDataCells(PEMData)
-                  : GetDataCells(SMRData)}
-              </Bar>
-            </>
-          )}
-          <Bar
-            dataKey="CAPEX"
-            stackId="a"
-            fill={COLORS.CAPEX}
-            fillOpacity={0}
-            name="CAPEX"
-          />
-          <Bar
-            dataKey="OPEX"
-            stackId="a"
-            fill={COLORS.OPEX}
-            fillOpacity={0}
-            name="OPEX"
-          />
-        </BarChart>
+        <WaterfallChart
+          view={view}
+          method={method}
+          data={{ pem: PEMData, smr: SMRData }}
+        />
       </Stack>
     </Stack>
   );
