@@ -13,10 +13,21 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    /* background-color: #03021b; */
   }
 }
 
 body {
+  background-color: #03021b;
   color: rgb(var(--foreground-rgb));
-  background: white;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
 }

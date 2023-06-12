@@ -1,3 +1,4 @@
+import { Inter } from "next/font/google";
 import { Methods, View } from "./types";
 
 export const MethodsList: Methods[] = ["PEM", "SMR"];
@@ -35,39 +36,5 @@ export const buildDataObj = (data: string[][]) =>
     };
   });
 
-// export const buildDataObj2 = (data: string[][]) => {
-//   const _obj = data.map((item, index) => {
-//     let prev = data[index - 1];
-//     return {
-//       name: item[0],
-//       subCategory: item[1],
-//       prevCost: prev && prev[0] === item[0] ? Number(prev[2]) : 0,
-//       cost: Number(item[2]),
-//       cumulativeCost:
-//         prev && prev[0] === item[0]
-//           ? Number(prev[2]) + Number(item[2])
-//           : Number(item[2]),
-//       carbonIntensity: Number(item[3]),
-//     };
-//   });
-
-//   const _obj2 = _obj.map((item, index) => {
-//     return {
-//       name: item.name,
-//       subCategory: item.subCategory,
-//       prevCost:
-//         _obj[index - 1] && item.name === _obj[index - 1].name
-//           ? _obj[index - 1].cost
-//           : 0,
-//       cost: item.cost,
-//       cumulativeCost:
-//         _obj[index - 1] && item.name === _obj[index - 1].name
-//           ? item.cost + _obj[index - 1].cost
-//           : item.cost,
-//       carbonIntensity: item.carbonIntensity,
-//     };
-//   });
-
-//   console.log(_obj);
-//   console.log(_obj2);
-// };
+export const inter = Inter({ subsets: ["latin"] });
+export const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
