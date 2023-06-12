@@ -10,9 +10,10 @@ import {
   RadioGroup,
   Stack,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { usePapaParse } from "react-papaparse";
 import WaterfallChart from "@/components/WaterfallChart";
+import Options from "@/components/Options";
 
 const Home = ({ pem, smr }: HomeProps) => {
   const { readString } = usePapaParse();
@@ -65,48 +66,20 @@ const Home = ({ pem, smr }: HomeProps) => {
         gap={2}
       >
         <Stack spacing={2} width={200}>
-          <FormControl>
-            <h2>Methods</h2>
-            <RadioGroup
-              aria-labelledby="controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={method}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setMethod(event.target.value as Methods)
-              }
-            >
-              {MethodsList.map((method) => (
-                <FormControlLabel
-                  value={method.name}
-                  control={<Radio />}
-                  label={method.label}
-                  key={method.name}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
+          <Options
+            title="Methods"
+            value={method}
+            list={MethodsList}
+            onChangeHandler={setMethod}
+          />
         </Stack>
         <Stack spacing={2} width={200}>
-          <FormControl>
-            <h2>Views</h2>
-            <RadioGroup
-              aria-labelledby="controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={view}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setView(event.target.value as View)
-              }
-            >
-              {ViewOptions.map((option) => (
-                <FormControlLabel
-                  value={option.name}
-                  control={<Radio />}
-                  label={option.label}
-                  key={option.name}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
+          <Options
+            title="Views"
+            value={view}
+            list={ViewOptions}
+            onChangeHandler={setView}
+          />
         </Stack>
       </Stack>
       <Stack direction="column">
