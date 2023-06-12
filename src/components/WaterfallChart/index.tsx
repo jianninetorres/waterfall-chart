@@ -21,12 +21,11 @@ interface WaterfallChartProps {
 }
 
 const WaterfallChart = ({ view, method, data }: WaterfallChartProps) => {
-  const { pem, smr } = data;
   return (
     <BarChart
       width={1100}
       height={500}
-      data={method === "PEM" ? pem : smr}
+      data={data[method]}
       margin={{
         top: 20,
       }}
@@ -40,7 +39,7 @@ const WaterfallChart = ({ view, method, data }: WaterfallChartProps) => {
         <>
           <Bar dataKey="prevCost" stackId="a" fill="transparent" />
           <Bar dataKey="cost" name="Cost" stackId="a" fill={COLORS.cost}>
-            {method === "PEM" ? GetDataCells(pem) : GetDataCells(smr)}
+            {GetDataCells(data[method])}
           </Bar>
         </>
       ) : (
@@ -52,7 +51,7 @@ const WaterfallChart = ({ view, method, data }: WaterfallChartProps) => {
             stackId="a"
             fill={COLORS.carbonIntensity}
           >
-            {method === "PEM" ? GetDataCells(pem) : GetDataCells(smr)}
+            {GetDataCells(data[method])}
           </Bar>
         </>
       )}

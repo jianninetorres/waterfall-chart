@@ -1,3 +1,5 @@
+import { View } from "./types";
+
 export interface HomeProps {
   pem: string;
   smr: string;
@@ -18,4 +20,10 @@ export interface DataObj {
   carbonIntensity: number;
   prevCarbonIntensity: number;
   cumulativeCarbonIntensity: number;
+}
+
+export interface Option {
+  name: string;
+  label: string;
+  color?: string;
 }

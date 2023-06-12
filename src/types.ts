@@ -1,3 +1,2 @@
-export type Methods = "PEM" | "SMR";
+export type Methods = "pem" | "smr";
 export type View = "carbonIntensity" | "cost";
-export type ViewOption = { name: View; color: string; label: string };

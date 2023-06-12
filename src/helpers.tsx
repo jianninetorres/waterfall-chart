@@ -1,10 +1,20 @@
 import { Inter } from "next/font/google";
-import { Methods, ViewOption } from "./types";
+import { Methods } from "./types";
 import { Cell } from "recharts";
-import { DataObj } from "./interfaces";
+import { DataObj, Option } from "./interfaces";
 
-export const MethodsList: Methods[] = ["PEM", "SMR"];
-export const ViewOptions: ViewOption[] = [
+export const MethodsList: Option[] = [
+  {
+    name: "pem",
+    label: "PEM",
+  },
+  {
+    name: "smr",
+    label: "SMR",
+  },
+];
+
+export const ViewOptions: Option[] = [
   {
     name: "carbonIntensity",
     color: "success",

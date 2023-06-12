@@ -19,7 +19,7 @@ const Home = ({ pem, smr }: HomeProps) => {
 
   const [PEMData, setPEMData] = useState<DataObj[]>([]);
   const [SMRData, setSMRData] = useState<DataObj[]>([]);
-  const [method, setMethod] = useState<Methods>("PEM");
+  const [method, setMethod] = useState<Methods>("pem");
   const [view, setView] = useState<View>("cost");
 
   useEffect(() => {
@@ -77,10 +77,10 @@ const Home = ({ pem, smr }: HomeProps) => {
             >
               {MethodsList.map((method) => (
                 <FormControlLabel
-                  value={method}
+                  value={method.name}
                   control={<Radio />}
-                  label={method}
-                  key={method}
+                  label={method.label}
+                  key={method.name}
                 />
               ))}
             </RadioGroup>
