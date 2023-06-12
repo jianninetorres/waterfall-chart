@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { Methods } from "./types";
+import { Methods, View } from "./types";
 import { Cell } from "recharts";
 import { DataObj, Option } from "./interfaces";
 
@@ -37,8 +37,8 @@ export const COLORS: Record<string, string> = {
   cost: "#f57c00",
 };
 
-export const buildDataObj = (data: string[][]) =>
-  data.map((item, index) => {
+export const buildDataObj = (data: string[][]): DataObj[] => {
+  const _obj: DataObj[] = data.map((item, index) => {
     let prev = data[index - 1];
     return {
       name: item[0],
@@ -57,6 +57,48 @@ export const buildDataObj = (data: string[][]) =>
           : Number(item[3]),
     };
   });
+
+  const getTotal = (subCategory: string, value: View) => {
+    return _obj
+      .map((item) => (item.subCategory === subCategory ? item[value] : 0))
+      .reduce((acc, curr) => acc + curr);
+  };
+
+  const getCAPEXTotalCost = getTotal("CAPEX", "cost");
+  const getOPEXTotalCost = getTotal("OPEX", "cost");
+  const getCAPEXTotalCarbonIntensity = getTotal("CAPEX", "carbonIntensity");
+  const getOPEXTotalCarbonIntensity = getTotal("OPEX", "carbonIntensity");
+
+  const subCategoryTotals = [
+    {
+      name: "CAPEX",
+      totalCost: getCAPEXTotalCost,
+      totalCarbonIntensity: getCAPEXTotalCarbonIntensity,
+    },
+    {
+      name: "OPEX",
+      totalCost: getOPEXTotalCost,
+      totalCarbonIntensity: getOPEXTotalCarbonIntensity,
+    },
+  ];
+
+  const calculatedTotals = [..._obj];
+
+  subCategoryTotals.forEach(({ name, totalCarbonIntensity, totalCost }) =>
+    calculatedTotals.push({
+      name: "Total",
+      subCategory: name,
+      cost: totalCost,
+      prevCost: 0,
+      cumulativeCost: 0,
+      carbonIntensity: totalCarbonIntensity,
+      prevCarbonIntensity: 0,
+      cumulativeCarbonIntensity: 0,
+    })
+  );
+
+  return calculatedTotals;
+};
 
 export const GetDataCells = (dataSet: DataObj[]) =>
   dataSet.map((entry, index) => {
