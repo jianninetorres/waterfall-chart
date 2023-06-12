@@ -1,4 +1,9 @@
-import { MethodsList, ViewOptions, buildDataObj } from "@/helpers";
+import {
+  MethodsList,
+  ViewOptions,
+  buildDataObj,
+  buildDataObj2,
+} from "@/helpers";
 import { DataObj, HomeProps, ParseResults } from "@/interfaces";
 import { Methods, View } from "@/types";
 import { Button, Stack, ThemeProvider } from "@mui/material";
@@ -8,11 +13,14 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const Home = ({ pem, smr }: HomeProps) => {
   const { readString } = usePapaParse();
@@ -42,9 +50,17 @@ const Home = ({ pem, smr }: HomeProps) => {
     const _PEMdata = buildDataObj(pemData.data);
     const _SMRdata = buildDataObj(smrData.data);
 
+    console.log(_PEMdata);
+
     setPEMData(_PEMdata);
     setSMRData(_SMRdata);
   }, []);
+
+  const GetDataCells = (dataSet: DataObj[]) =>
+    dataSet.map((entry, index) => {
+      const color = entry.subCategory === "CAPEX" ? COLORS[0] : COLORS[1];
+      return <Cell fill={color} key={index} />;
+    });
 
   return (
     <>
@@ -64,39 +80,38 @@ const Home = ({ pem, smr }: HomeProps) => {
         <Legend />
         {view === "cost" ? (
           <>
-            <Bar
-              dataKey="carbonIntensity"
-              name="Carbon Intensity"
-              stackId="a"
-              fill="transparent"
-            />
-            <Bar dataKey="cost" name="Cost" stackId="a" fill="#f57c00" />
-            <Bar
-              dataKey="subCategory"
-              stackId="a"
-              fill="#325aa8"
-              fillOpacity={0}
-              name="Sub category"
-            />
+            <Bar dataKey="prevCost" stackId="a" fill="transparent" />
+            <Bar dataKey="cost" name="Cost" stackId="a" fill="#f57c00">
+              {file === "PEM" ? GetDataCells(PEMData) : GetDataCells(SMRData)}
+            </Bar>
           </>
         ) : (
           <>
-            <Bar dataKey="cost" name="Cost" stackId="a" fill="transparent" />
+            <Bar dataKey="prevCarbonIntensity" stackId="a" fill="transparent" />
             <Bar
               dataKey="carbonIntensity"
               name="Carbon Intensity"
               stackId="a"
               fill="#388e3c"
-            />
-            <Bar
-              dataKey="subCategory"
-              stackId="a"
-              fill="#325aa8"
-              fillOpacity={0}
-              name="Sub category"
-            />
+            >
+              {file === "PEM" ? GetDataCells(PEMData) : GetDataCells(SMRData)}
+            </Bar>
           </>
         )}
+        <Bar
+          dataKey="CAPEX"
+          stackId="a"
+          fill={COLORS[0]}
+          fillOpacity={0}
+          name="CAPEX"
+        />
+        <Bar
+          dataKey="OPEX"
+          stackId="a"
+          fill={COLORS[1]}
+          fillOpacity={0}
+          name="OPEX"
+        />
       </BarChart>
 
       <Stack
