@@ -14,7 +14,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Or go to https://othersphere.vercel.app/
+Or go to [https://waterfall-chart.vercel.app/](https://waterfall-chart.vercel.app/)
 
 ![waterfall chart](./public/screenshot.png)
 ![waterfall chart 2](./public/screenshot2.png)
